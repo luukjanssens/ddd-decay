@@ -1,9 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>flocsdsking</title>
+		<!-- COMMON TAGS -->
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<title>ⒹⒹⒹ an event by Bakken & Bæck</title>
+		<!-- Search Engine -->
+		<meta name="description" content="ⒹⒹⒹ is a quarterly event by Bakken & Bæck, in which we invite one developer, one designer and one thinker to reflect on a specific theme. For the first edition, we’ll focus on the theme of “Belonging”.">
+		<meta name="image" content="https://bakkenbaeck.com/images/ddd-share.png">
+		<!-- Schema.org for Google -->
+		<meta itemprop="name" content="ⒹⒹⒹ an event by Bakken & Bæck">
+		<meta itemprop="description" content="ⒹⒹⒹ is a quarterly event by Bakken & Bæck, in which we invite one developer, one designer and one thinker to reflect on a specific theme. For the first edition, we’ll focus on the theme of “Belonging”.">
+		<meta itemprop="image" content="https://bakkenbaeck.com/images/ddd-share.png">
+		<!-- Twitter -->
+		<meta name="twitter:card" content="summary">
+		<meta name="twitter:title" content="ⒹⒹⒹ an event by Bakken & Bæck">
+		<meta name="twitter:description" content="ⒹⒹⒹ is a quarterly event by Bakken & Bæck, in which we invite one developer, one designer and one thinker to reflect on a specific theme. For the first edition, we’ll focus on the theme of “Belonging”.">
+		<meta name="twitter:site" content="@bakkenbaeck">
+		<meta name="twitter:creator" content="@bakkenbaeck">
+		<meta name="twitter:image:src" content="https://bakkenbaeck.com/images/ddd-share.png">
+		<!-- Open Graph general (Facebook, Pinterest & Google+) -->
+		<meta name="og:title" content="ⒹⒹⒹ an event by Bakken & Bæck">
+		<meta name="og:description" content="ⒹⒹⒹ is a quarterly event by Bakken & Bæck, in which we invite one developer, one designer and one thinker to reflect on a specific theme. For the first edition, we’ll focus on the theme of “Belonging”.">
+		<meta name="og:image" content="https://bakkenbaeck.com/images/ddd-share.png">
+		<meta name="og:url" content="https://bakkenbaeck.com/ddd">
+		<meta name="og:site_name" content="ⒹⒹⒹ an event by Bakken & Bæck">
+		<meta name="og:type" content="website">
+
+		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+		<link rel="icon" href="/favicon.ico" type="image/x-icon">
+
 		<style>
 			body {
 				background-color: #ffffff;
@@ -11,45 +36,15 @@
 				overflow: hidden;
 				font-family: sans-serif;
 			}
-
-			a {
-				color:#0078ff;
-			}
-
-			#info {
-				color: #000;
-				position: absolute;
-				top: 10px;
-				width: 100%;
-			}
-
-			#container {
-				position: relative;
-				max-width: 90%;
-				z-index: 10;
-				background: red;
-				opacity: 1;
-			}
-
-			.text {
-				z-index: 0;
-				font-size: 2em;
-				color: black;
-				position: absolute;
-				opacity: 1;
-				right: 20vw;
-				top: 15vw;
-				max-width: 400px;
-			}
 		</style>
 	</head>
 	<body>
 
-
-
 		<div id="container"></div>
+		<canvas id="layer1"></canvas>
+		<canvas id="layer2"></canvas>
 
-		<script src="js/three.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/104/three.min.js"></script>
 		<script id="vertexShader" type="x-shader/x-vertex">
 			void main() {
 				gl_Position = vec4( position, 1.0 );
@@ -58,42 +53,25 @@
 
 		<script id="fragmentShader" type="x-shader/x-fragment">
 			uniform vec2 u_resolution;
-			uniform vec2 u_sres;
-			uniform float u_time;
 			uniform sampler2D u_texture_1;
 			uniform sampler2D u_texture_2;
 			uniform sampler2D u_texture_3;
 			uniform sampler2D u_texture_4;
-			uniform float u_days;
-			uniform float u_shortLoop_1;
-			uniform bool u_shortLoop_1_running;
-			uniform float u_shortLoop_2;
-			uniform bool u_shortLoop_2_running;
-			uniform float u_longLoop;
+			uniform float u_loop_1;
+			uniform float u_loop_2;
+			uniform bool u_loop_1_running;
+			uniform bool u_loop_2_running;
 			uniform vec2 st;
-			uniform vec2 st2;
-			uniform vec2 u_fragcoord;
 
 			void main() {
 				float amplitude = 100.;
 				float frequency = 5.0;
 
-				float new_s = gl_FragCoord.s * -1.0 + 0.5;
-				float new_t = gl_FragCoord.t * -1.0 + 0.5;
-				vec2 new_coord = vec2(new_s, new_s);
-
 				vec2 st = gl_FragCoord.st/u_resolution.xy;
-
-				// colors:
-				// blue					0.049, 0.055, 0.352
-				// purple 			0.179, 0.013, 0.333
-				// red 					0.918, 0.202, 0.165
-				// light-gray		0.784, 0.788, 0.796
-
 				vec3 pattern_1 = vec3(0.6);
-				vec3 text_1 = vec3(0.6);
 				vec3 pattern_2 = vec3(0.6);
-				vec3 text_2 = vec3(0.6);
+				vec3 rothko_1 = vec3(0.6);
+				vec3 rothko_2	 = vec3(0.6);
 
 				vec4 texture_1 = texture2D(u_texture_1, st);
 				vec4 texture_2 = texture2D(u_texture_2, st);
@@ -101,56 +79,57 @@
 				vec4 texture_4 = texture2D(u_texture_4, st);
 
 				pattern_1 += texture_1.xyz;
-				text_1 += texture_2.xyz;
-				pattern_2 += texture_3.xyz;
-				text_2 += texture_4.xyz;
+				pattern_2 += texture_2.xyz;
+				rothko_1 += texture_3.xyz;
+				rothko_2 += texture_4.xyz;
 
 				vec3 print = vec3(0.6);
-				vec3 layer_1 = abs(pattern_1 - text_1);
-				vec3 layer_2 = abs(pattern_1 - text_2);
+				vec3 layer_1 = abs(pattern_1 - rothko_1);
+				vec3 layer_2 = abs(pattern_2 - rothko_2);
+				vec3 layer_3 = abs(pattern_1 - rothko_1);
 
-				if(u_shortLoop_1_running) {
-					if(all(greaterThan(layer_1, vec3(u_shortLoop_1)))) {
-						layer_1 = vec3(0.6);
-					} else {
+				if(u_loop_1_running) {
+					if( all(greaterThan(layer_1, vec3(u_loop_1)))) {
 						layer_1 = vec3(0.08);
-					}
-					print = layer_1;
-				}
-
-				if(u_shortLoop_2_running) {
-					if(all(greaterThan(layer_2, vec3(u_shortLoop_2)))) {
-						layer_2 = vec3(0.6);
-					} else {
+					} else if( all(lessThan(layer_2, vec3(u_loop_1)))) {
 						layer_2 = vec3(0.08);
+						layer_1 = layer_2;
+					} else {
+						layer_1 = vec3(0.6);
 					}
-					print = layer_2;
 				}
 
+				if(u_loop_2_running) {
+					if( all(greaterThan(layer_1, vec3(u_loop_2)))) {
+						layer_1 = vec3(0.08);
+					} else if( all(lessThan(layer_2, vec3(u_loop_2)))) {
+						layer_2 = vec3(0.08);
+						layer_1 = layer_2;
+					} else {
+						layer_1 = vec3(0.6);
+					}
+				}
 
-				vec4 texture = vec4(print, 1.0);
+				vec4 texture = vec4(layer_1, 1.0);
+
 				gl_FragColor = texture;
 			}
 		</script>
-
     <script>
 				let container;
 				let canvas;
         let camera, scene, renderer;
 				let uniforms;
-				let textSize = new THREE.Vector2();
-				let days = 1.0;
-				let shortLoop_1 = 0.0;
-				let shortLoop_2 = 0.0;
+				let loop_1 = 0.0;
+				let loop_2 = 0.0;
+				let loop_1_running = true;
+				let loop_2_running = false;
 
-				let clock_1 = new THREE.Clock();
-				let clock_2 = new THREE.Clock();
-				clock_2.autoStart = false;
-				let date = Date.now();
+				const layer1 = new Image();
+				const layer2 = new Image();
 
         init();
 				animate();
-
 
         function init() {
 					renderer = new THREE.WebGLRenderer();
@@ -165,30 +144,78 @@
 
 					scene = new THREE.Scene();
 
-          const geometry = new THREE.PlaneBufferGeometry( 2, 2 );
+					const geometry = new THREE.PlaneBufferGeometry( 2, 2 );
+
+					const ctx_1 = document.querySelector('#layer1').getContext('2d');
+					const ctx_2 = document.querySelector('#layer2').getContext('2d');
+					const canvas_1 = ctx_1.canvas;
+					const canvas_2 = ctx_2.canvas;
+					canvas_1.width = window.innerWidth;
+					canvas_1.height = window.innerHeight;
+					canvas_2.width = window.innerWidth;
+					canvas_2.height = window.innerHeight;
+
+					function isPortrait() {
+						const ratio = window.innerWidth / window.innerHeight;
+						return ratio >= 1 ? false : true;
+					}
+
+					function setSource() {
+						ctx_1.clearRect(0, 0, canvas_1.width, canvas_1.height);
+						ctx_2.clearRect(0, 0, canvas_2.width, canvas_2.height);
+
+						layer1.src = isPortrait() ? "img/intro_p.svg" : "img/intro.svg";
+						layer2.src = "img/quote.svg";
+					}
+					setSource();
+
+					console.log(layer1, layer2)
+
+					function updateCanvas() {
+						setSource();
+						canvasTexture_1.needsUpdate = true;
+						canvasTexture_2.needsUpdate = true;
+					}
+
+					function scaleToFit(img, context){
+						const canvas = context.canvas;
+						const scale = Math.min(canvas.width / img.width, canvas.height / img.height);
+						const x = (canvas.width / 2) - (img.width / 2) * scale;
+						const y = (canvas.height / 2) - (img.height / 2) * scale;
+						return context.drawImage(img, x, y, img.width * scale, img.height * scale);
+					}
+
+					function drawImage(img, context, texture) {
+						context.fillRect(0, 0, context.canvas.width, context.canvas.height);
+						scaleToFit(img, context);
+						texture.needsUpdate = true;
+					}
+
+					layer1.onload = () => drawImage(layer1, ctx_1, canvasTexture_1);
+					layer2.onload = () => drawImage(layer2, ctx_2, canvasTexture_2);
+
+					window.addEventListener('resize', updateCanvas, false);
+
+					const canvasTexture_1 = new THREE.CanvasTexture(ctx_1.canvas);
+					const canvasTexture_2 = new THREE.CanvasTexture(ctx_2.canvas);
 
 					const loader = new THREE.TextureLoader()
 
-					const texture1 = loader.load( './img/test-9.jpg' );
-					const texture2 = loader.load( './img/rothko.jpg' );
-					const text1 = loader.load( './img/text_v2.jpg' );
-					const text2 = loader.load( './img/text_v2.jpg' );
+					const texture1 = canvasTexture_1;
+					const texture2 = canvasTexture_2;
+					const texture3 = loader.load( './img/rothko_s.jpg' );
+					const texture4 = loader.load( './img/rothko3.jpg' );
 
           uniforms = {
-						u_time: { type: "f", value: 1.0 },
-						u_days: { type: "f", value: 1.0 },
-						u_shortLoop_1: { type: "f", value: 1.0 },
-						u_shortLoop_1_running: { type: "b", value: false },
-						u_shortLoop_2: {value: 1.0 },
-						u_shortLoop_2_running: {value: false },
-						u_longLoop: { type: "f", value: 1.0 },
+						u_loop_1: { type: "f", value: 1.0 },
+						u_loop_2: { type: "f", value: 1.0 },
+						u_loop_1_running: { type: "b", value: false },
+						u_loop_2_running: { type: "b", value: false },
 						u_resolution: { type: "v2", value: new THREE.Vector2() },
-						u_sres: {type: "v2", value: new THREE.Vector2() },
 						u_texture_1: { type: "t", value: texture1 },
-						u_texture_2: { type: "t", value: text1 },
-						u_texture_3: { type: "t", value: texture2 },
-						u_texture_4: { type: "t", value: text2 },
-						u_fragcoord: { type: "v2", value: new THREE.Vector2() }
+						u_texture_2: { type: "t", value: texture2 },
+						u_texture_3: { type: "t", value: texture3 },
+						u_texture_4: { type: "t", value: texture4 },
 					};
 
           const material = new THREE.ShaderMaterial({
@@ -207,26 +234,12 @@
 					window.addEventListener('resize', onWindowResize, false);
 				}
 
-				const textCanvas = document.createElement('canvas');
-				loadSVG('img/text.svg',canvas);
-
-				function loadSVG(file,canvas){
-					var svg=new Image();
-					svg.addEventListener('load',function(){
-						var ctx=textCanvas.getContext('2d');
-						textCanvas.width=svg.width;
-						textCanvas.height=svg.height;
-						ctx.drawImage(svg,0,0);
-					})
-					svg.src=file;
-				}
-
         function onWindowResize(event) {
 					renderer.setSize(window.innerWidth, window.innerHeight);
+					camera.aspect = renderer.domElement.width / renderer.domElement.width;
 					uniforms.u_resolution.value.x = renderer.domElement.width;
 					uniforms.u_resolution.value.y = renderer.domElement.height;
-					uniforms.u_sres.value.y = textSize.y;
-					uniforms.u_sres.value.x = textSize.x;
+					console.log('resize')
         }
 
         function animate() {
@@ -235,37 +248,40 @@
 				}
 
         function render() {
-					// uniforms.u_time.value += 0.05;
-					days += (0 - days)*0.05;
+					loop_1_running && (loop_1 += 0.01);
+					loop_2_running && (loop_2 += 0.01);
 
-					const shortVelocity = 0.09;
-					const shortLoopTime_1 = clock_1.getElapsedTime();
-					const shortLoopTime_2 = clock_2.getElapsedTime();
+					const shortVelocity = .08;
 
-					shortLoop_1_curve = Math.sin(shortLoopTime_1 * shortVelocity);
-					shortLoop_2_curve = Math.sin(shortLoopTime_2 * shortVelocity);
+					loop_1_curve = Math.sin(loop_1 * shortVelocity);
+					loop_2_curve = Math.sin(loop_2 * shortVelocity);
 
-					shortLoop_1 = Math.abs(shortLoop_1_curve, 0);
-					shortLoop_2 = Math.abs(shortLoop_2_curve, 0);
-
-					if(clock_1.running && shortLoop_1 > 0.99) {
-						clock_1.stop();
-						clock_2.start();
-						console.log('start 2')
-					}
-					if(clock_2.running && shortLoop_2 > 0.99) {
-						clock_2.stop();
-						clock_1.start();
-						console.log('start 1')
+					if (loop_1_running) {
+						if ( loop_1_curve > 0.99) {
+							loop_1 = 0;
+							loop_1_running = false;
+							loop_2_running = true;
+						}
 					}
 
-					uniforms.u_shortLoop_1.value = shortLoop_1 * 0.85; // adjusts loop speed
-					uniforms.u_shortLoop_2.value = shortLoop_2 * 0.85; // adjusts loop speed
-					uniforms.u_shortLoop_1_running.value = clock_1.running;
-					uniforms.u_shortLoop_2_running.value = clock_2.running;
+					if (loop_2_running) {
+						if ( loop_2_curve > 0.99) {
+							loop_2 = 0;
+							loop_2_running = false;
+							loop_1_running = true;
+						}
+					}
+
+					shortLoop_1 = Math.abs(loop_1_curve, 0);
+					shortLoop_2 = Math.abs(loop_2_curve, 0);
+
+					uniforms.u_loop_1.value = shortLoop_1; // adjusts loop speed
+					uniforms.u_loop_2.value = shortLoop_2; // adjusts loop speed
+					uniforms.u_loop_1_running.value = loop_1_running;
+					uniforms.u_loop_2_running.value = loop_2_running;
 
 					renderer.render( scene, camera );
         }
-    </script>
+		</script>
 	</body>
 </html>
