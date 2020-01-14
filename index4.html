@@ -11,41 +11,13 @@
 				overflow: hidden;
 				font-family: sans-serif;
 			}
-
-			a {
-				color:#0078ff;
-			}
-
-			#info {
-				color: #000;
-				position: absolute;
-				top: 10px;
-				width: 100%;
-			}
-
-			#container {
-				position: relative;
-				max-width: 90%;
-				z-index: 10;
-				background: red;
-				opacity: 1;
-			}
-
-			.text {
-				z-index: 0;
-				font-size: 2em;
-				color: black;
-				position: absolute;
-				opacity: 1;
-				right: 20vw;
-				top: 15vw;
-				max-width: 400px;
-			}
 		</style>
 	</head>
 	<body>
 
 		<div id="container"></div>
+		<canvas id="layer1"></canvas>
+		<canvas id="layer2"></canvas>
 
 		<script src="js/three.min.js"></script>
 		<script id="vertexShader" type="x-shader/x-vertex">
@@ -53,14 +25,6 @@
 				gl_Position = vec4( position, 1.0 );
 			}
 		</script>
-
-
-
-
-		################################################################################################################################################
-
-
-
 
 		<script id="fragmentShader" type="x-shader/x-fragment">
 			uniform vec2 u_resolution;
@@ -73,20 +37,12 @@
 			uniform bool u_loop_1_running;
 			uniform bool u_loop_2_running;
 			uniform vec2 st;
-			uniform vec2 u_fragcoord;
 
 			void main() {
 				float amplitude = 100.;
 				float frequency = 5.0;
 
 				vec2 st = gl_FragCoord.st/u_resolution.xy;
-
-				// colors:
-				// blue					0.049, 0.055, 0.352
-				// purple 			0.179, 0.013, 0.333
-				// red 					0.918, 0.202, 0.165
-				// light-gray		0.784, 0.788, 0.796
-
 				vec3 pattern_1 = vec3(0.6);
 				vec3 pattern_2 = vec3(0.6);
 				vec3 rothko_1 = vec3(0.6);
@@ -107,8 +63,6 @@
 				vec3 layer_2 = abs(pattern_2 - rothko_2);
 				vec3 layer_3 = abs(pattern_1 - rothko_1);
 
-				float loop_2 = u_loop_1 * 20.0;
-
 				if(u_loop_1_running) {
 					if( all(greaterThan(layer_1, vec3(u_loop_1)))) {
 						layer_1 = vec3(0.08);
@@ -118,39 +72,37 @@
 					} else {
 						layer_1 = vec3(0.6);
 					}
-					print = layer_1;
 				}
 
 				if(u_loop_2_running) {
-					if( all(greaterThan(layer_3, vec3(u_loop_2)))) {
-						layer_3 = vec3(0.08);
+					if( all(greaterThan(layer_1, vec3(u_loop_2)))) {
+						layer_1 = vec3(0.08);
+					} else if( all(lessThan(layer_2, vec3(u_loop_2)))) {
+						layer_2 = vec3(0.08);
+						layer_1 = layer_2;
 					} else {
-						layer_3 = vec3(1,0,0);
+						layer_1 = vec3(0.6);
 					}
-					print = abs(layer_1 - layer_3);
 				}
 
+				vec4 texture = vec4(layer_1, 1.0);
 
-				vec4 texture = vec4(print, 1.0);
 				gl_FragColor = texture;
 			}
 		</script>
-
-
-		################################################################################################################################################
-
-
 
     <script>
 				let container;
 				let canvas;
         let camera, scene, renderer;
 				let uniforms;
-				let days = 1.0;
 				let loop_1 = 0.0;
 				let loop_2 = 0.0;
 				let loop_1_running = true;
 				let loop_2_running = false;
+
+				const layer1 = new Image();
+				const layer2 = new Image();
 
         init();
 				animate();
@@ -168,12 +120,61 @@
 
 					scene = new THREE.Scene();
 
-          const geometry = new THREE.PlaneBufferGeometry( 2, 2 );
+					const geometry = new THREE.PlaneBufferGeometry( 2, 2 );
+
+					const ctx_1 = document.querySelector('#layer1').getContext('2d');
+					const ctx_2 = document.querySelector('#layer2').getContext('2d');
+					const canvas_1 = ctx_1.canvas;
+					const canvas_2 = ctx_2.canvas;
+					canvas_1.width = window.innerWidth;
+					canvas_1.height = window.innerHeight;
+					canvas_2.width = window.innerWidth;
+					canvas_2.height = window.innerHeight;
+
+					function isPortrait() {
+						const ratio = window.innerWidth / window.innerHeight;
+						return ratio >= 1 ? false : true;
+					}
+
+					function setSource() {
+						layer1.src = isPortrait() ? "img/intro_p.svg" : "img/intro.svg";
+						layer2.src = "img/quote.svg";
+					}
+					setSource();
+
+					function updateCanvas() {
+						setSource();
+						canvasTexture_1.needsUpdate = true;
+						canvasTexture_2.needsUpdate = true;
+					}
+
+					function scaleToFit(img, context){
+						const scale = Math.min(window.innerWidth / img.width, window.innerHeight / img.height);
+						const x = (window.innerWidth / 2) - (img.width / 2) * scale;
+						const y = (window.innerHeight / 2) - (img.height / 2) * scale;
+						return context.drawImage(img, x, y, img.width * scale, img.height * scale);
+					}
+
+					function drawImage(img, context, texture) {
+						context.fillRect(0, 0, window.innerWidth, window.height);
+						scaleToFit(img, context);
+						texture.needsUpdate = true;
+					}
+
+					layer1.onload = () => drawImage(layer1, ctx_1, canvasTexture_1);
+					layer2.onload = () => drawImage(layer2, ctx_2, canvasTexture_2);
+
+					window.addEventListener('resize', updateCanvas, false);
+
+					const canvasTexture_1 = new THREE.CanvasTexture(ctx_1.canvas);
+					const canvasTexture_2 = new THREE.CanvasTexture(ctx_2.canvas);
+					canvasTexture_1.needsUpdate = true;
+					canvasTexture_2.needsUpdate = true;
 
 					const loader = new THREE.TextureLoader()
 
-					const texture1 = loader.load( './img/ddd3.jpg' );
-					const texture2 = loader.load( './img/bb2.jpg' );
+					const texture1 = canvasTexture_1;
+					const texture2 = canvasTexture_2;
 					const texture3 = loader.load( './img/rothko.jpg' );
 					const texture4 = loader.load( './img/rothko3.jpg' );
 
@@ -187,7 +188,6 @@
 						u_texture_2: { type: "t", value: texture2 },
 						u_texture_3: { type: "t", value: texture3 },
 						u_texture_4: { type: "t", value: texture4 },
-						u_fragcoord: { type: "v2", value: new THREE.Vector2() }
 					};
 
           const material = new THREE.ShaderMaterial({
@@ -206,24 +206,12 @@
 					window.addEventListener('resize', onWindowResize, false);
 				}
 
-				const textCanvas = document.createElement('canvas');
-				loadSVG('img/text.svg',canvas);
-
-				function loadSVG(file,canvas){
-					var svg=new Image();
-					svg.addEventListener('load',function(){
-						var ctx=textCanvas.getContext('2d');
-						textCanvas.width=svg.width;
-						textCanvas.height=svg.height;
-						ctx.drawImage(svg,0,0);
-					})
-					svg.src=file;
-				}
-
         function onWindowResize(event) {
 					renderer.setSize(window.innerWidth, window.innerHeight);
+					camera.aspect = renderer.domElement.width / renderer.domElement.width;
 					uniforms.u_resolution.value.x = renderer.domElement.width;
 					uniforms.u_resolution.value.y = renderer.domElement.height;
+					console.log('resize')
         }
 
         function animate() {
@@ -247,7 +235,6 @@
 					if (loop_1_running) {
 						if ( loop_1_curve > 0.99) {
 							loop_1 = 0;
-							console.log('STOP 1 START 2')
 							loop_1_running = false;
 							loop_2_running = true;
 						}
@@ -256,7 +243,6 @@
 					if (loop_2_running) {
 						if ( loop_2_curve > 0.99) {
 							loop_2 = 0;
-							console.log('STOP 2 START 1')
 							loop_2_running = false;
 							loop_1_running = true;
 						}
@@ -265,7 +251,7 @@
 					shortLoop_1 = Math.abs(loop_1_curve, 0);
 					shortLoop_2 = Math.abs(loop_2_curve, 0);
 
-					console.log( shortLoop_1);
+				//	console.log( shortLoop_1);
 
 					uniforms.u_loop_1.value = shortLoop_1; // adjusts loop speed
 					uniforms.u_loop_2.value = shortLoop_2; // adjusts loop speed

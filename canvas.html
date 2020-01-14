@@ -91,7 +91,6 @@
 				let canvas;
         let camera, scene, renderer;
 				let uniforms;
-				const img = new Image();
 				let textSize = new THREE.Vector2();
 				let days = 1.0;
 				let shortLoop_1 = 0.0;
@@ -115,15 +114,11 @@
 					container.appendChild( renderer.domElement );
 
           camera = new THREE.Camera();
-			//    camera.position.z = 1;
-			//		camera.updateProjectionMatrix();
-			//		camera.aspect = window.innerWidth / window.innerHeight;
-			//		renderer.setSize( window.innerWidth, window.innerHeight);
+					camera.position.z = 1;
 
 					scene = new THREE.Scene();
 
 					const geometry = new THREE.PlaneBufferGeometry( 2, 2 );
-
 
 					const ctx = document.createElement('canvas').getContext('2d');
 					const canvas = ctx.canvas;
