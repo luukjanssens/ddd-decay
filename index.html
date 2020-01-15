@@ -78,7 +78,6 @@
 			uniform float u_loop_2;
 			uniform bool u_loop_1_running;
 			uniform bool u_loop_2_running;
-			uniform vec2 st;
 
 			void main() {
 				float amplitude = 100.;
@@ -183,8 +182,8 @@
 					ctx_1.clearRect(0, 0, canvas_1.width, canvas_1.height);
 					ctx_2.clearRect(0, 0, canvas_2.width, canvas_2.height);
 
-					layer1.src = isPortrait() ? "img/intro_p.svg" : "img/intro.svg";
-					layer2.src = "img/quote.svg";
+					layer1.src = isPortrait() ? "img/intro_portrait.svg" : "img/intro.svg";
+					layer2.src = isPortrait() ? "img/quote_portrait.svg" : "img/quote.svg";
 				}
 				setSource();
 
@@ -216,12 +215,15 @@
 				const canvasTexture_1 = new THREE.CanvasTexture(ctx_1.canvas);
 				const canvasTexture_2 = new THREE.CanvasTexture(ctx_2.canvas);
 
-				const loader = new THREE.TextureLoader()
+				const loader = new THREE.TextureLoader();
 
 				const texture1 = canvasTexture_1;
 				const texture2 = canvasTexture_2;
-				const texture3 = loader.load( './img/rothko_s.jpg' );
-				const texture4 = loader.load( './img/rothko3.jpg' );
+
+				const rothko1 = isPortrait() ? './img/rothko1_portrait.jpg' : './img/rothko1.jpg';
+				const rothko2 = isPortrait() ? './img/rothko2_portrait.jpg' : './img/rothko2.jpg';
+				const texture3 = loader.load( rothko1 );
+				const texture4 = loader.load( rothko2 );
 
 				uniforms = {
 					u_loop_1: { type: "f", value: 1.0 },
