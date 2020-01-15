@@ -1,3 +1,20 @@
+<!--
+            .:+osssso+/:`                    `-/+osssso+/-                     .:+ossssoo/:.
+        -odNmys+////+oshNNh+`            `/ymNdyo+////+oydNds:             .ohNmhs+/////oshmNh+.
+      /dMy/`             .+dMy-        `sNmo-             `:sNmo`        :dMh/`             .+dMh-
+    .dMy.  :hhhhhhhhys+-    :dMs      /NN/   shhhhhhhyyo/.   `oNm-     `hMh.  -hhhhhhhhys+:`   -hMy`
+  .NM/    /MM/:::://ohMNs.   yMh    oMd`    mMh:::::/+smMm/   -NM:   `mM+    :MM+:::://ohNMy.   oMd`
+  hM+     /MM`        `yMN-   dM+  -MN`     mMs         :mMh   -MN`  yMs     :MM.        `sMM/   yMs
+.MN      /MM`          dMm   :Md  sMo      mMs          -MM+   hM/ `MM`     :MM.          yMN`  .MN
+:Md      /MM`          oMM`  .MN  hM/      mMs           NMs   sMo .MN      :MM.          +MM.  `MM`
+-MN      /MM`          dMd   :Mm  yMo      mMs          -MM/   hM+ `MM`     :MM.          yMN   .MN
+ mM/     /MM`        `yMN-   yMo  :Mm`     mMs         :NMy   .MN`  hM+     :MM.        `sMN:   sMy
+ -NN-    /MM::::::/ohMNs`   +Md`   yMy     mMh::::::/smMd/   `dM+   .NM:    :MM/:::::/+yNMy.   /Mm`
+ -mN+   :hhhhhhhhhyo:    .yMh`     sMd-   yhhhhhhhhys/.    :mN/     .mMo`  -hhhhhhhhhyo:`   `sMd.
+  `oNmo.               :yMm/        -hMh/`              `+dMy.        +NNs-               -sNm+
+    `/yNNho/:-..--:+sdNms-            .odMds+/--..-:/oymNh+`            :yNNho/:--.--:+shNmy:
+        ./+syhhhhhys+:`                  `-/oyhhhhhyso/-                   .:+syhhhhhys+:`
+-->
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -5,22 +22,22 @@
 		<meta charset="utf-8">
 		<title>ⒹⒹⒹ an event by Bakken & Bæck</title>
 		<!-- Search Engine -->
-		<meta name="description" content="ⒹⒹⒹ is a quarterly event by Bakken & Bæck, in which we invite one developer, one designer and one thinker to reflect on a specific theme. For the first edition, we’ll focus on the theme of “Belonging”.">
+		<meta name="description" content="ⒹⒹⒹ is a quarterly event, in which we invite one developer, one designer and one thinker to reflect on a specific theme. For the third edition on January 23rd, we'll focus on the theme of “Digital Decay”.">
 		<meta name="image" content="https://bakkenbaeck.com/images/ddd-share.png">
 		<!-- Schema.org for Google -->
 		<meta itemprop="name" content="ⒹⒹⒹ an event by Bakken & Bæck">
-		<meta itemprop="description" content="ⒹⒹⒹ is a quarterly event by Bakken & Bæck, in which we invite one developer, one designer and one thinker to reflect on a specific theme. For the first edition, we’ll focus on the theme of “Belonging”.">
+		<meta itemprop="description" content="ⒹⒹⒹ is a quarterly event, in which we invite one developer, one designer and one thinker to reflect on a specific theme. For the third edition on January 23rd, we'll focus on the theme of “Digital Decay”.">
 		<meta itemprop="image" content="https://bakkenbaeck.com/images/ddd-share.png">
 		<!-- Twitter -->
 		<meta name="twitter:card" content="summary">
 		<meta name="twitter:title" content="ⒹⒹⒹ an event by Bakken & Bæck">
-		<meta name="twitter:description" content="ⒹⒹⒹ is a quarterly event by Bakken & Bæck, in which we invite one developer, one designer and one thinker to reflect on a specific theme. For the first edition, we’ll focus on the theme of “Belonging”.">
+		<meta name="twitter:description" content="ⒹⒹⒹ is a quarterly event, in which we invite one developer, one designer and one thinker to reflect on a specific theme. For the third edition on January 23rd, we'll focus on the theme of “Digital Decay”.">
 		<meta name="twitter:site" content="@bakkenbaeck">
 		<meta name="twitter:creator" content="@bakkenbaeck">
 		<meta name="twitter:image:src" content="https://bakkenbaeck.com/images/ddd-share.png">
 		<!-- Open Graph general (Facebook, Pinterest & Google+) -->
 		<meta name="og:title" content="ⒹⒹⒹ an event by Bakken & Bæck">
-		<meta name="og:description" content="ⒹⒹⒹ is a quarterly event by Bakken & Bæck, in which we invite one developer, one designer and one thinker to reflect on a specific theme. For the first edition, we’ll focus on the theme of “Belonging”.">
+		<meta name="og:description" content="ⒹⒹⒹ is a quarterly event, in which we invite one developer, one designer and one thinker to reflect on a specific theme. For the third edition on January 23rd, we'll focus on the theme of “Digital Decay”.">
 		<meta name="og:image" content="https://bakkenbaeck.com/images/ddd-share.png">
 		<meta name="og:url" content="https://bakkenbaeck.com/ddd">
 		<meta name="og:site_name" content="ⒹⒹⒹ an event by Bakken & Bæck">
@@ -44,7 +61,7 @@
 		<canvas id="layer1"></canvas>
 		<canvas id="layer2"></canvas>
 
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/104/three.min.js"></script>
+		<script src="js/three.min.js"></script>
 		<script id="vertexShader" type="x-shader/x-vertex">
 			void main() {
 				gl_Position = vec4( position, 1.0 );
@@ -116,172 +133,171 @@
 			}
 		</script>
     <script>
-				let container;
-				let canvas;
-        let camera, scene, renderer;
-				let uniforms;
-				let loop_1 = 0.0;
-				let loop_2 = 0.0;
-				let loop_1_running = true;
-				let loop_2_running = false;
+			console.log('%c ⒷⒷ', 'font-size: 42px');
+			console.log('%c ⒹⒹⒹ', 'font-size: 42px');
+			let container;
+			let canvas;
+			let camera, scene, renderer;
+			let uniforms;
+			let loop_1 = 0.0;
+			let loop_2 = 0.0;
+			let loop_1_running = true;
+			let loop_2_running = false;
 
-				const layer1 = new Image();
-				const layer2 = new Image();
+			const layer1 = new Image();
+			const layer2 = new Image();
 
-        init();
-				animate();
+			init();
+			animate();
 
-        function init() {
-					renderer = new THREE.WebGLRenderer();
-					renderer.setClearColor(1.0, 1.0, 1.0, 0.0);
-					renderer.setPixelRatio( window.devicePixelRatio );
+			function init() {
+				renderer = new THREE.WebGLRenderer();
+				renderer.setClearColor(1.0, 1.0, 1.0, 0.0);
+				renderer.setPixelRatio( window.devicePixelRatio );
 
-					container = document.getElementById( 'container' );
-					container.appendChild( renderer.domElement );
+				container = document.getElementById( 'container' );
+				container.appendChild( renderer.domElement );
 
-          camera = new THREE.Camera();
-          camera.position.z = 1;
+				camera = new THREE.Camera();
+				camera.position.z = 1;
 
-					scene = new THREE.Scene();
+				scene = new THREE.Scene();
 
-					const geometry = new THREE.PlaneBufferGeometry( 2, 2 );
+				const geometry = new THREE.PlaneBufferGeometry( 2, 2 );
 
-					const ctx_1 = document.querySelector('#layer1').getContext('2d');
-					const ctx_2 = document.querySelector('#layer2').getContext('2d');
-					const canvas_1 = ctx_1.canvas;
-					const canvas_2 = ctx_2.canvas;
-					canvas_1.width = window.innerWidth;
-					canvas_1.height = window.innerHeight;
-					canvas_2.width = window.innerWidth;
-					canvas_2.height = window.innerHeight;
+				const ctx_1 = document.querySelector('#layer1').getContext('2d');
+				const ctx_2 = document.querySelector('#layer2').getContext('2d');
+				const canvas_1 = ctx_1.canvas;
+				const canvas_2 = ctx_2.canvas;
+				canvas_1.width = window.innerWidth;
+				canvas_1.height = window.innerHeight;
+				canvas_2.width = window.innerWidth;
+				canvas_2.height = window.innerHeight;
 
-					function isPortrait() {
-						const ratio = window.innerWidth / window.innerHeight;
-						return ratio >= 1 ? false : true;
-					}
+				function isPortrait() {
+					const ratio = window.innerWidth / window.innerHeight;
+					return ratio >= 1 ? false : true;
+				}
 
-					function setSource() {
-						ctx_1.clearRect(0, 0, canvas_1.width, canvas_1.height);
-						ctx_2.clearRect(0, 0, canvas_2.width, canvas_2.height);
+				function setSource() {
+					ctx_1.clearRect(0, 0, canvas_1.width, canvas_1.height);
+					ctx_2.clearRect(0, 0, canvas_2.width, canvas_2.height);
 
-						layer1.src = isPortrait() ? "img/intro_p.svg" : "img/intro.svg";
-						layer2.src = "img/quote.svg";
-					}
+					layer1.src = isPortrait() ? "img/intro_p.svg" : "img/intro.svg";
+					layer2.src = "img/quote.svg";
+				}
+				setSource();
+
+				function updateCanvas() {
 					setSource();
-
-					console.log(layer1, layer2)
-
-					function updateCanvas() {
-						setSource();
-						canvasTexture_1.needsUpdate = true;
-						canvasTexture_2.needsUpdate = true;
-					}
-
-					function scaleToFit(img, context){
-						const canvas = context.canvas;
-						const scale = Math.min(canvas.width / img.width, canvas.height / img.height);
-						const x = (canvas.width / 2) - (img.width / 2) * scale;
-						const y = (canvas.height / 2) - (img.height / 2) * scale;
-						return context.drawImage(img, x, y, img.width * scale, img.height * scale);
-					}
-
-					function drawImage(img, context, texture) {
-						context.fillRect(0, 0, context.canvas.width, context.canvas.height);
-						scaleToFit(img, context);
-						texture.needsUpdate = true;
-					}
-
-					layer1.onload = () => drawImage(layer1, ctx_1, canvasTexture_1);
-					layer2.onload = () => drawImage(layer2, ctx_2, canvasTexture_2);
-
-					window.addEventListener('resize', updateCanvas, false);
-
-					const canvasTexture_1 = new THREE.CanvasTexture(ctx_1.canvas);
-					const canvasTexture_2 = new THREE.CanvasTexture(ctx_2.canvas);
-
-					const loader = new THREE.TextureLoader()
-
-					const texture1 = canvasTexture_1;
-					const texture2 = canvasTexture_2;
-					const texture3 = loader.load( './img/rothko_s.jpg' );
-					const texture4 = loader.load( './img/rothko3.jpg' );
-
-          uniforms = {
-						u_loop_1: { type: "f", value: 1.0 },
-						u_loop_2: { type: "f", value: 1.0 },
-						u_loop_1_running: { type: "b", value: false },
-						u_loop_2_running: { type: "b", value: false },
-						u_resolution: { type: "v2", value: new THREE.Vector2() },
-						u_texture_1: { type: "t", value: texture1 },
-						u_texture_2: { type: "t", value: texture2 },
-						u_texture_3: { type: "t", value: texture3 },
-						u_texture_4: { type: "t", value: texture4 },
-					};
-
-          const material = new THREE.ShaderMaterial({
-						uniforms: uniforms,
-						vertexShader: document.getElementById( 'vertexShader' ).textContent,
-						fragmentShader: document.getElementById( 'fragmentShader' ).textContent,
-						transparent: true,
-						opacity: 0,
-					});
-
-					const mesh = new THREE.Mesh(geometry, material);
-
-					scene.add(mesh);
-
-				  onWindowResize();
-					window.addEventListener('resize', onWindowResize, false);
+					canvasTexture_1.needsUpdate = true;
+					canvasTexture_2.needsUpdate = true;
 				}
 
-        function onWindowResize(event) {
-					renderer.setSize(window.innerWidth, window.innerHeight);
-					camera.aspect = renderer.domElement.width / renderer.domElement.width;
-					uniforms.u_resolution.value.x = renderer.domElement.width;
-					uniforms.u_resolution.value.y = renderer.domElement.height;
-					console.log('resize')
-        }
-
-        function animate() {
-					requestAnimationFrame(animate);
-					render();
+				function scaleToFit(img, context){
+					const canvas = context.canvas;
+					const scale = Math.min(canvas.width / img.width, canvas.height / img.height);
+					const x = (canvas.width / 2) - (img.width / 2) * scale;
+					const y = (canvas.height / 2) - (img.height / 2) * scale;
+					return context.drawImage(img, x, y, img.width * scale, img.height * scale);
 				}
 
-        function render() {
-					loop_1_running && (loop_1 += 0.01);
-					loop_2_running && (loop_2 += 0.01);
+				function drawImage(img, context, texture) {
+					context.fillRect(0, 0, context.canvas.width, context.canvas.height);
+					scaleToFit(img, context);
+					texture.needsUpdate = true;
+				}
 
-					const shortVelocity = .08;
+				layer1.onload = () => drawImage(layer1, ctx_1, canvasTexture_1);
+				layer2.onload = () => drawImage(layer2, ctx_2, canvasTexture_2);
 
-					loop_1_curve = Math.sin(loop_1 * shortVelocity);
-					loop_2_curve = Math.sin(loop_2 * shortVelocity);
+				window.addEventListener('resize', updateCanvas, false);
 
-					if (loop_1_running) {
-						if ( loop_1_curve > 0.99) {
-							loop_1 = 0;
-							loop_1_running = false;
-							loop_2_running = true;
-						}
+				const canvasTexture_1 = new THREE.CanvasTexture(ctx_1.canvas);
+				const canvasTexture_2 = new THREE.CanvasTexture(ctx_2.canvas);
+
+				const loader = new THREE.TextureLoader()
+
+				const texture1 = canvasTexture_1;
+				const texture2 = canvasTexture_2;
+				const texture3 = loader.load( './img/rothko_s.jpg' );
+				const texture4 = loader.load( './img/rothko3.jpg' );
+
+				uniforms = {
+					u_loop_1: { type: "f", value: 1.0 },
+					u_loop_2: { type: "f", value: 1.0 },
+					u_loop_1_running: { type: "b", value: false },
+					u_loop_2_running: { type: "b", value: false },
+					u_resolution: { type: "v2", value: new THREE.Vector2() },
+					u_texture_1: { type: "t", value: texture1 },
+					u_texture_2: { type: "t", value: texture2 },
+					u_texture_3: { type: "t", value: texture3 },
+					u_texture_4: { type: "t", value: texture4 },
+				};
+
+				const material = new THREE.ShaderMaterial({
+					uniforms: uniforms,
+					vertexShader: document.getElementById( 'vertexShader' ).textContent,
+					fragmentShader: document.getElementById( 'fragmentShader' ).textContent,
+					transparent: true,
+					opacity: 0,
+				});
+
+				const mesh = new THREE.Mesh(geometry, material);
+
+				scene.add(mesh);
+
+				onWindowResize();
+				window.addEventListener('resize', onWindowResize, false);
+			}
+
+			function onWindowResize(event) {
+				renderer.setSize(window.innerWidth, window.innerHeight);
+				camera.aspect = renderer.domElement.width / renderer.domElement.width;
+				uniforms.u_resolution.value.x = renderer.domElement.width;
+				uniforms.u_resolution.value.y = renderer.domElement.height;
+			}
+
+			function animate() {
+				requestAnimationFrame(animate);
+				render();
+			}
+
+			function render() {
+				loop_1_running && (loop_1 += 0.01);
+				loop_2_running && (loop_2 += 0.01);
+
+				const shortVelocity = .08;
+
+				loop_1_curve = Math.sin(loop_1 * shortVelocity);
+				loop_2_curve = Math.sin(loop_2 * shortVelocity);
+
+				if (loop_1_running) {
+					if ( loop_1_curve > 0.99) {
+						loop_1 = 0;
+						loop_1_running = false;
+						loop_2_running = true;
 					}
+				}
 
-					if (loop_2_running) {
-						if ( loop_2_curve > 0.99) {
-							loop_2 = 0;
-							loop_2_running = false;
-							loop_1_running = true;
-						}
+				if (loop_2_running) {
+					if ( loop_2_curve > 0.99) {
+						loop_2 = 0;
+						loop_2_running = false;
+						loop_1_running = true;
 					}
+				}
 
-					shortLoop_1 = Math.abs(loop_1_curve, 0);
-					shortLoop_2 = Math.abs(loop_2_curve, 0);
+				shortLoop_1 = Math.abs(loop_1_curve, 0);
+				shortLoop_2 = Math.abs(loop_2_curve, 0);
 
-					uniforms.u_loop_1.value = shortLoop_1; // adjusts loop speed
-					uniforms.u_loop_2.value = shortLoop_2; // adjusts loop speed
-					uniforms.u_loop_1_running.value = loop_1_running;
-					uniforms.u_loop_2_running.value = loop_2_running;
+				uniforms.u_loop_1.value = shortLoop_1;
+				uniforms.u_loop_2.value = shortLoop_2;
+				uniforms.u_loop_1_running.value = loop_1_running;
+				uniforms.u_loop_2_running.value = loop_2_running;
 
-					renderer.render( scene, camera );
-        }
+				renderer.render( scene, camera );
+			}
 		</script>
 	</body>
 </html>
