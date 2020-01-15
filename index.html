@@ -134,6 +134,7 @@
     <script>
 			console.log('%c ⒷⒷ', 'font-size: 42px');
 			console.log('%c ⒹⒹⒹ', 'font-size: 42px');
+
 			let container;
 			let canvas;
 			let camera, scene, renderer;
@@ -163,7 +164,6 @@
 				scene = new THREE.Scene();
 
 				const geometry = new THREE.PlaneBufferGeometry( 2, 2 );
-
 				const ctx_1 = document.querySelector('#layer1').getContext('2d');
 				const ctx_2 = document.querySelector('#layer2').getContext('2d');
 				const canvas_1 = ctx_1.canvas;
@@ -225,6 +225,11 @@
 				const texture3 = loader.load( rothko1 );
 				const texture4 = loader.load( rothko2 );
 
+				texture1.minFilter = THREE.LinearFilter;
+				texture2.minFilter = THREE.LinearFilter;
+				texture3.minFilter = THREE.LinearFilter;
+				texture4.minFilter = THREE.LinearFilter;
+
 				uniforms = {
 					u_loop_1: { type: "f", value: 1.0 },
 					u_loop_2: { type: "f", value: 1.0 },
@@ -269,13 +274,13 @@
 				loop_1_running && (loop_1 += 0.01);
 				loop_2_running && (loop_2 += 0.01);
 
-				const shortVelocity = .08;
+				const shortVelocity = .1;
 
 				loop_1_curve = Math.sin(loop_1 * shortVelocity);
 				loop_2_curve = Math.sin(loop_2 * shortVelocity);
 
 				if (loop_1_running) {
-					if ( loop_1_curve > 0.99) {
+					if ( loop_1_curve > 0.96) {
 						loop_1 = 0;
 						loop_1_running = false;
 						loop_2_running = true;
@@ -283,7 +288,7 @@
 				}
 
 				if (loop_2_running) {
-					if ( loop_2_curve > 0.99) {
+					if ( loop_2_curve > 0.95) {
 						loop_2 = 0;
 						loop_2_running = false;
 						loop_1_running = true;
