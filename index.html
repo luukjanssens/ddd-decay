@@ -1,5 +1,6 @@
+
 <!--
-            .:+osssso+/:`                    `-/+osssso+/-                     .:+ossssoo/:.
+          ..:+osssso+/:`                    `-/+osssso+/-                     .:+ossssoo/:.
         -odNmys+////+oshNNh+`            `/ymNdyo+////+oydNds:             .ohNmhs+/////oshmNh+.
       /dMy/`             .+dMy-        `sNmo-             `:sNmo`        :dMh/`             .+dMh-
     .dMy.  :hhhhhhhhys+-    :dMs      /NN/   shhhhhhhyyo/.   `oNm-     `hMh.  -hhhhhhhhys+:`   -hMy`
@@ -24,17 +25,13 @@
 		<!-- Search Engine -->
 		<meta name="description" content="ⒹⒹⒹ is a quarterly event, in which we invite one developer, one designer and one thinker to reflect on a specific theme. For the third edition on January 23rd, we'll focus on the theme of “Digital Decay”.">
 		<meta name="image" content="https://bakkenbaeck.com/images/ddd-share-decay.png">
-		<!-- Schema.org for Google -->
-		<meta itemprop="name" content="ⒹⒹⒹ an event by Bakken & Bæck">
-		<meta itemprop="description" content="ⒹⒹⒹ is a quarterly event, in which we invite one developer, one designer and one thinker to reflect on a specific theme. For the third edition on January 23rd, we'll focus on the theme of “Digital Decay”.">
-		<meta itemprop="image" content="https://bakkenbaeck.com/images/ddd-share-decay.png">
 		<!-- Twitter -->
 		<meta name="twitter:card" content="summary">
 		<meta name="twitter:title" content="ⒹⒹⒹ an event by Bakken & Bæck">
 		<meta name="twitter:description" content="ⒹⒹⒹ is a quarterly event, in which we invite one developer, one designer and one thinker to reflect on a specific theme. For the third edition on January 23rd, we'll focus on the theme of “Digital Decay”.">
 		<meta name="twitter:site" content="@bakkenbaeck">
 		<meta name="twitter:creator" content="@bakkenbaeck">
-		<meta name="twitter:image:src" content="https://bakkenbaeck.com/images/ddd-share-decay.png">
+		<meta name="twitter:image:src" content="https://bakkenbaeck.com/images/ddd-share-decay.png?43629843">
 		<!-- Open Graph general (Facebook, Pinterest & Google+) -->
 		<meta name="og:title" content="ⒹⒹⒹ an event by Bakken & Bæck">
 		<meta name="og:description" content="ⒹⒹⒹ is a quarterly event, in which we invite one developer, one designer and one thinker to reflect on a specific theme. For the third edition on January 23rd, we'll focus on the theme of “Digital Decay”.">
@@ -42,24 +39,46 @@
 		<meta name="og:url" content="https://bakkenbaeck.com/ddd">
 		<meta name="og:site_name" content="ⒹⒹⒹ an event by Bakken & Bæck">
 		<meta name="og:type" content="website">
+		<!-- Schema.org for Google -->
+		<meta itemprop="name" content="ⒹⒹⒹ an event by Bakken & Bæck">
+		<meta itemprop="description" content="ⒹⒹⒹ is a quarterly event, in which we invite one developer, one designer and one thinker to reflect on a specific theme. For the third edition on January 23rd, we'll focus on the theme of “Digital Decay”.">
+		<meta itemprop="image" content="https://bakkenbaeck.com/images/ddd-share-decay.png">
 
-		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-		<link rel="icon" href="/favicon.ico" type="image/x-icon">
-
+		<link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+		<link rel="icon" href="./favicon.ico" type="image/x-icon">
 		<style>
-			body {
-				background-color: #ffffff;
-				margin: 0px;
+			html, body {
+				margin: 0;
+				height: 100%;
 				overflow: hidden;
-				font-family: sans-serif;
+				background-color: #141414;
+			}
+
+			#container {
+				-webkit-transition: opacity 2s ease-in-out;
+				-moz-transition: opactiy 2s ease-in-out;
+				-ms-transition: opacity 2s ease-in-out;
+				-o-transition: opacity 2s ease-in-out;
+				transition: opacity 2s ease-in-out;
+			}
+
+			.hide {
+				opacity: 0;
+			}
+
+			a {
+				cursor: default;
 			}
 		</style>
 	</head>
 	<body>
-
-		<div id="container"></div>
+		<a>
+			<div id="container" class="hide"></div>
+		</a>
 		<canvas id="layer1"></canvas>
 		<canvas id="layer2"></canvas>
+		<canvas id="layer3"></canvas>
+		<canvas id="layer4"></canvas>
 
 		<script src="js/three.min.js"></script>
 		<script id="vertexShader" type="x-shader/x-vertex">
@@ -74,10 +93,17 @@
 			uniform sampler2D u_texture_2;
 			uniform sampler2D u_texture_3;
 			uniform sampler2D u_texture_4;
+			uniform sampler2D u_texture_5;
+			uniform sampler2D u_texture_6;
 			uniform float u_loop_1;
 			uniform float u_loop_2;
+			uniform float u_layer_1_curve;
+			uniform float u_layer_2_curve;
+			uniform float u_layer_3_curve;
+			uniform float u_layer_4_curve;
 			uniform bool u_loop_1_running;
 			uniform bool u_loop_2_running;
+
 
 			void main() {
 				float amplitude = 100.;
@@ -86,6 +112,8 @@
 				vec2 st = gl_FragCoord.st/u_resolution.xy;
 				vec3 pattern_1 = vec3(0.6);
 				vec3 pattern_2 = vec3(0.6);
+				vec3 pattern_3 = vec3(0.6);
+				vec3 pattern_4 = vec3(0.6);
 				vec3 rothko_1 = vec3(0.6);
 				vec3 rothko_2	 = vec3(0.6);
 
@@ -93,36 +121,36 @@
 				vec4 texture_2 = texture2D(u_texture_2, st);
 				vec4 texture_3 = texture2D(u_texture_3, st);
 				vec4 texture_4 = texture2D(u_texture_4, st);
+				vec4 texture_5 = texture2D(u_texture_5, st);
+				vec4 texture_6 = texture2D(u_texture_6, st);
 
 				pattern_1 += texture_1.xyz;
 				pattern_2 += texture_2.xyz;
+				pattern_3 += texture_5.xyz;
+				pattern_4 += texture_6.xyz;
 				rothko_1 += texture_3.xyz;
 				rothko_2 += texture_4.xyz;
 
 				vec3 print = vec3(0.6);
 				vec3 layer_1 = abs(pattern_1 - rothko_1);
 				vec3 layer_2 = abs(pattern_2 - rothko_2);
-				vec3 layer_3 = abs(pattern_1 - rothko_1);
+				vec3 layer_3 = abs(pattern_3 - rothko_1);
+				vec3 layer_4 = abs(pattern_4 - rothko_2);
 
-				if(u_loop_1_running) {
-					if( all(greaterThan(layer_1, vec3(u_loop_1)))) {
-						layer_1 = vec3(0.08);
-					} else if( all(lessThan(layer_2, vec3(u_loop_1)))) {
+				if(u_loop_1_running ^^ u_loop_2_running) {
+					if( all(lessThan(layer_4, vec3(u_layer_4_curve)))) {
+						layer_4 = vec3(0.08);
+						layer_1 = layer_4;
+					} else if( all(lessThan(layer_3, vec3(u_layer_3_curve)))) {
+						layer_3 = vec3(0.6);
+						layer_1 = layer_3;
+					} else if( all(lessThan(layer_2, vec3(u_layer_2_curve)))) {
 						layer_2 = vec3(0.08);
 						layer_1 = layer_2;
-					} else {
+					} else if( all(lessThan(layer_1, vec3(u_layer_1_curve)))) {
 						layer_1 = vec3(0.6);
-					}
-				}
-
-				if(u_loop_2_running) {
-					if( all(greaterThan(layer_1, vec3(u_loop_2)))) {
+					} else {
 						layer_1 = vec3(0.08);
-					} else if( all(lessThan(layer_2, vec3(u_loop_2)))) {
-						layer_2 = vec3(0.08);
-						layer_1 = layer_2;
-					} else {
-						layer_1 = vec3(0.6);
 					}
 				}
 
@@ -135,17 +163,40 @@
 			console.log('%c ⒷⒷ', 'font-size: 42px');
 			console.log('%c ⒹⒹⒹ', 'font-size: 42px');
 
+			document.onreadystatechange = () => {
+				if (document.readyState === 'complete') {
+					document.querySelector('#container').classList.remove('hide');
+				}
+			};
+
 			let container;
 			let canvas;
 			let camera, scene, renderer;
 			let uniforms;
+			let tick = 0;
 			let loop_1 = 0.0;
 			let loop_2 = 0.0;
 			let loop_1_running = true;
 			let loop_2_running = false;
+			let layer_1_running = true;
+			let layer_2_running = true;
+			let layer_3_running = true;
+			let layer_4_running = true;
+			let layer_1_tick = 0;
+			let layer_2_tick = 0;
+			let layer_3_tick = 0;
+			let layer_4_tick = 0;
+			let layer_1_curve = 0;
+			let layer_2_curve = 0;
+			let layer_3_curve = 0;
+			let layer_4_curve = 0;
+
+			const link = document.querySelector('a');
 
 			const layer1 = new Image();
 			const layer2 = new Image();
+			const layer3 = new Image();
+			const layer4 = new Image();
 
 			init();
 			animate();
@@ -166,12 +217,22 @@
 				const geometry = new THREE.PlaneBufferGeometry( 2, 2 );
 				const ctx_1 = document.querySelector('#layer1').getContext('2d');
 				const ctx_2 = document.querySelector('#layer2').getContext('2d');
+				const ctx_3 = document.querySelector('#layer3').getContext('2d');
+				const ctx_4 = document.querySelector('#layer4').getContext('2d');
 				const canvas_1 = ctx_1.canvas;
 				const canvas_2 = ctx_2.canvas;
-				canvas_1.width = window.innerWidth;
-				canvas_1.height = window.innerHeight;
-				canvas_2.width = window.innerWidth;
-				canvas_2.height = window.innerHeight;
+				const canvas_3 = ctx_3.canvas;
+				const canvas_4 = ctx_4.canvas;
+
+				const isSmallScreen = window.screen.width < 400;
+				canvas_1.width = isSmallScreen ? window.screen.width : window.innerWidth;
+				canvas_1.height = isSmallScreen ? window.screen.height : window.innerHeight;
+				canvas_2.width = isSmallScreen ? window.screen.width : window.innerWidth;
+				canvas_2.height = isSmallScreen ? window.screen.height : window.innerHeight;
+				canvas_3.width = isSmallScreen ? window.screen.width : window.innerWidth;
+				canvas_3.height = isSmallScreen ? window.screen.height : window.innerHeight;
+				canvas_4.width = isSmallScreen ? window.screen.width : window.innerWidth;
+				canvas_4.height = isSmallScreen ? window.screen.height : window.innerHeight;
 
 				function isPortrait() {
 					const ratio = window.innerWidth / window.innerHeight;
@@ -181,9 +242,13 @@
 				function setSource() {
 					ctx_1.clearRect(0, 0, canvas_1.width, canvas_1.height);
 					ctx_2.clearRect(0, 0, canvas_2.width, canvas_2.height);
+					ctx_3.clearRect(0, 0, canvas_3.width, canvas_3.height);
+					ctx_4.clearRect(0, 0, canvas_4.width, canvas_4.height);
 
-					layer1.src = isPortrait() ? "img/intro_portrait.svg" : "img/intro.svg";
-					layer2.src = isPortrait() ? "img/quote_portrait.svg" : "img/quote.svg";
+					layer1.src = isPortrait() ? "img/intro_portrait.png" : "img/intro.png";
+					layer2.src = isPortrait() ? "img/quote_portrait.png" : "img/quote.png";
+					layer3.src = isPortrait() ? "img/lineup_portrait.png" : "img/lineup.png";
+					layer4.src = isPortrait() ? "img/tickets_portrait.png" : "img/tickets.png";
 				}
 				setSource();
 
@@ -191,6 +256,8 @@
 					setSource();
 					canvasTexture_1.needsUpdate = true;
 					canvasTexture_2.needsUpdate = true;
+					canvasTexture_3.needsUpdate = true;
+					canvasTexture_4.needsUpdate = true;
 				}
 
 				function scaleToFit(img, context){
@@ -209,16 +276,22 @@
 
 				layer1.onload = () => drawImage(layer1, ctx_1, canvasTexture_1);
 				layer2.onload = () => drawImage(layer2, ctx_2, canvasTexture_2);
+				layer3.onload = () => drawImage(layer3, ctx_3, canvasTexture_3);
+				layer4.onload = () => drawImage(layer4, ctx_4, canvasTexture_4);
 
 				window.addEventListener('resize', updateCanvas, false);
 
 				const canvasTexture_1 = new THREE.CanvasTexture(ctx_1.canvas);
 				const canvasTexture_2 = new THREE.CanvasTexture(ctx_2.canvas);
+				const canvasTexture_3 = new THREE.CanvasTexture(ctx_3.canvas);
+				const canvasTexture_4 = new THREE.CanvasTexture(ctx_4.canvas);
 
 				const loader = new THREE.TextureLoader();
 
 				const texture1 = canvasTexture_1;
 				const texture2 = canvasTexture_2;
+				const texture5 = canvasTexture_3;
+				const texture6 = canvasTexture_4;
 
 				const rothko1 = isPortrait() ? './img/rothko1_portrait.jpg' : './img/rothko1.jpg';
 				const rothko2 = isPortrait() ? './img/rothko2_portrait.jpg' : './img/rothko2.jpg';
@@ -229,10 +302,16 @@
 				texture2.minFilter = THREE.LinearFilter;
 				texture3.minFilter = THREE.LinearFilter;
 				texture4.minFilter = THREE.LinearFilter;
+				texture5.minFilter = THREE.LinearFilter;
+				texture6.minFilter = THREE.LinearFilter;
 
 				uniforms = {
 					u_loop_1: { type: "f", value: 1.0 },
 					u_loop_2: { type: "f", value: 1.0 },
+					u_layer_1_curve: { type: "f", value: 1.0 },
+					u_layer_2_curve: { type: "f", value: 1.0 },
+					u_layer_3_curve: { type: "f", value: 1.0 },
+					u_layer_4_curve: { type: "f", value: 1.0 },
 					u_loop_1_running: { type: "b", value: false },
 					u_loop_2_running: { type: "b", value: false },
 					u_resolution: { type: "v2", value: new THREE.Vector2() },
@@ -240,6 +319,8 @@
 					u_texture_2: { type: "t", value: texture2 },
 					u_texture_3: { type: "t", value: texture3 },
 					u_texture_4: { type: "t", value: texture4 },
+					u_texture_5: { type: "t", value: texture5 },
+					u_texture_6: { type: "t", value: texture6 },
 				};
 
 				const material = new THREE.ShaderMaterial({
@@ -274,32 +355,116 @@
 				loop_1_running && (loop_1 += 0.01);
 				loop_2_running && (loop_2 += 0.01);
 
-				const shortVelocity = .1;
 
-				loop_1_curve = Math.sin(loop_1 * shortVelocity);
-				loop_2_curve = Math.sin(loop_2 * shortVelocity);
+				const velocity = .2;
 
 				if (loop_1_running) {
-					if ( loop_1_curve > 0.96) {
-						loop_1 = 0;
-						loop_1_running = false;
-						loop_2_running = true;
+					link.removeAttribute('href');
+					link.removeAttribute('target');
+					link.style.cursor = 'default';
+					layer_1_tick += 0.01;
+					layer_1_curve = layer_1_running ? Math.abs((Math.sin(layer_1_tick * velocity)),0) : 1;
+					if (layer_1_curve >= 0.999) {
+						layer_1_running = false;
+					};
+
+					if(layer_1_tick >= velocity * 20) {
+						layer_2_tick += 0.01;
+						layer_2_curve = layer_2_running ? Math.abs((Math.sin(layer_2_tick * velocity)),0) : 1;
+						if (layer_2_curve >= 0.999) {
+							layer_2_running = false;
+						};
+					}
+
+					if(layer_1_tick >= velocity * 40) {
+						layer_3_tick += 0.01;
+						layer_3_curve = layer_3_running ? Math.abs((Math.sin(layer_3_tick * velocity)),0) : 1;
+						if (layer_3_curve >= 0.999) {
+							layer_3_running = false;
+						};
+					}
+
+					if(layer_1_tick >= velocity * 60) {
+						link.setAttribute('href', 'http://eventbrite.com');
+						link.setAttribute('target', '_blank');
+						link.style.cursor = 'pointer';
+						layer_4_tick += 0.008;
+						layer_4_curve = layer_4_running ? Math.abs((Math.sin(layer_4_tick * velocity)),0) : 1;
+						if (layer_4_curve >= 0.95) {
+							layer_4_running = false;
+							layer_1_tick = 0;
+							layer_2_tick = 0;
+							layer_3_tick = 0;
+							layer_4_tick = 0;
+							layer_1_curve = 0;
+							layer_2_curve = 0;
+							layer_3_curve = 0;
+							layer_4_curve = 0;
+							loop_1_running = false;
+							loop_2_running = true;
+							layer_1_running = true;
+							layer_2_running = true;
+							layer_3_running = true;
+							layer_4_running = true;
+						};
 					}
 				}
-
 				if (loop_2_running) {
-					if ( loop_2_curve > 0.95) {
-						loop_2 = 0;
-						loop_2_running = false;
-						loop_1_running = true;
+					link.removeAttribute('href');
+					link.removeAttribute('target');
+					link.style.cursor = 'default';
+					layer_1_tick += 0.01;
+					layer_1_curve = layer_1_running ? Math.abs((Math.sin(layer_1_tick * velocity)),0) : 1;
+					if (layer_1_curve >= 0.999) {
+						layer_1_running = false;
+					};
+
+					if(layer_1_tick >= velocity * 20) {
+						layer_2_tick += 0.01;
+						layer_2_curve = layer_2_running ? Math.abs((Math.sin(layer_2_tick * velocity)),0) : 1;
+						if (layer_2_curve >= 0.999) {
+							layer_2_running = false;
+						};
+					}
+
+					if(layer_1_tick >= velocity * 40) {
+						layer_3_tick += 0.01;
+						layer_3_curve = layer_3_running ? Math.abs((Math.sin(layer_3_tick * velocity)),0) : 1;
+						if (layer_3_curve >= 0.999) {
+							layer_3_running = false;
+						};
+					}
+
+					if(layer_1_tick >= velocity * 60) {
+						link.setAttribute('href', 'http://eventbrite.com');
+						link.setAttribute('target', '_blank');
+						link.style.cursor = 'pointer';
+						layer_4_tick += 0.008;
+						layer_4_curve = layer_4_running ? Math.abs((Math.sin(layer_4_tick * velocity)),0) : 1;
+						if (layer_4_curve >= 0.95) {
+							layer_4_running = false;
+							layer_1_tick = 0;
+							layer_2_tick = 0;
+							layer_3_tick = 0;
+							layer_4_tick = 0;
+							layer_1_curve = 0;
+							layer_2_curve = 0;
+							layer_3_curve = 0;
+							layer_4_curve = 0;
+							loop_2_running = false;
+							loop_1_running = true;
+							layer_1_running = true;
+							layer_2_running = true;
+							layer_3_running = true;
+							layer_4_running = true;
+						};
 					}
 				}
 
-				shortLoop_1 = Math.abs(loop_1_curve, 0);
-				shortLoop_2 = Math.abs(loop_2_curve, 0);
-
-				uniforms.u_loop_1.value = shortLoop_1;
-				uniforms.u_loop_2.value = shortLoop_2;
+				uniforms.u_layer_1_curve.value = layer_1_curve;
+				uniforms.u_layer_2_curve.value = layer_2_curve;
+				uniforms.u_layer_3_curve.value = layer_3_curve;
+				uniforms.u_layer_4_curve.value = layer_4_curve;
 				uniforms.u_loop_1_running.value = loop_1_running;
 				uniforms.u_loop_2_running.value = loop_2_running;
 
