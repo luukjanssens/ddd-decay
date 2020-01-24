@@ -21,6 +21,9 @@
 	<head>
 		<!-- COMMON TAGS -->
 		<meta charset="utf-8">
+		<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta http-equiv="Expires" content="0" />
 		<title>ⒹⒹⒹ an event by Bakken & Bæck</title>
 		<!-- Search Engine -->
 		<meta name="description" content="ⒹⒹⒹ is a quarterly event, in which we invite one developer, one designer and one thinker to reflect on a specific theme. For the third edition on January 23rd, we'll focus on the theme of “Digital Decay”.">
@@ -363,7 +366,7 @@
 					link.removeAttribute('target');
 					link.style.cursor = 'default';
 					layer_1_tick += 0.01;
-					layer_1_curve = layer_1_running ? Math.abs((Math.sin(layer_1_tick * velocity)),0) : 1;
+					layer_1_curve = layer_1_running ? Math.abs(( 0.1 + Math.sin(layer_1_tick * velocity)),0) : 1;
 					if (layer_1_curve >= 0.999) {
 						layer_1_running = false;
 					};
@@ -385,7 +388,7 @@
 					}
 
 					if(layer_1_tick >= velocity * 60) {
-						link.setAttribute('href', 'http://eventbrite.com');
+						link.setAttribute('href', 'https://www.eventbrite.com/e/ddd-digital-decay-tickets-89950230561');
 						link.setAttribute('target', '_blank');
 						link.style.cursor = 'pointer';
 						layer_4_tick += 0.008;
@@ -414,7 +417,7 @@
 					link.removeAttribute('target');
 					link.style.cursor = 'default';
 					layer_1_tick += 0.01;
-					layer_1_curve = layer_1_running ? Math.abs((Math.sin(layer_1_tick * velocity)),0) : 1;
+					layer_1_curve = layer_1_running ? Math.abs((0.1 + Math.sin(layer_1_tick * velocity)),0) : 1;
 					if (layer_1_curve >= 0.999) {
 						layer_1_running = false;
 					};
@@ -436,7 +439,7 @@
 					}
 
 					if(layer_1_tick >= velocity * 60) {
-						link.setAttribute('href', 'http://eventbrite.com');
+						link.setAttribute('href', 'https://www.eventbrite.com/e/ddd-digital-decay-tickets-89950230561');
 						link.setAttribute('target', '_blank');
 						link.style.cursor = 'pointer';
 						layer_4_tick += 0.008;
